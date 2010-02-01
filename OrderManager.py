@@ -48,7 +48,7 @@ class OrderManager(object):
                    '''
         
     handlers = {}
-    version = '0.01'
+    version = '1.0000'
 
     index.exposed=True
 
