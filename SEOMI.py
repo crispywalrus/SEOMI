@@ -1,3 +1,4 @@
+#!/usr/bin/env python 
 """Simple Stone Edge Order Manager and Avetti Commerce integration"""
 
 import cherrypy
