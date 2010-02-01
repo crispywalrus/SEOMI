@@ -1,5 +1,5 @@
-from access.DataAccess import DataAccess
-from setixml.Models import *
+from DataAccess import DataAccess
+from Models import *
 from datetime import datetime
 
 class OrderManagerDao(object):
