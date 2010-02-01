@@ -15,7 +15,8 @@ class OrderManager(object):
         self.handlers['ordercount'] = self.ordercount
         self.handlers['sendversion'] = self.sendversion
         self.handlers['downloadorders'] = self.downloadorders
-        self.dao = None
+        self.storeDao  = None
+        self.secureDao = None
 
     def index(self,
               setifunction=None,
@@ -69,12 +70,12 @@ class OrderManager(object):
             try:
                 if lastorder:
                     if lastorder.lower() == 'all':
-                        count = self.dao.getAllOrdersCount(code)
+                        count = self.storeDao.getAllOrdersCount(code)
                         return self.setiresponse('ordercount=%s' % count)
                     else:
                         #its an order number
                         print 'getting orders after ', lastorder, ' for store ',code
-                        count = self.dao.getOrderCountAfterId(code,lastorder)
+                        count = self.storeDao.getOrderCountAfterId(code,lastorder)
                         print 'got ',count,' orders'
                         return self.setiresponse('ordercount=%s' % count)
             except:
@@ -84,14 +85,14 @@ class OrderManager(object):
                 if lastdate:
                     if lastdate.lower() == 'all':
                         #get all orders
-                        count = self.dao.getAllOrdersCount(code)
+                        count = self.storeDao.getAllOrdersCount(code)
                     else:
                         #convert to date
                         print 'last date=%s.' % lastdate
                         tt = strptime(lastdate,'%d/%b/%Y')
                         ldate = date(tt.tm_year,tt.tm_mon,tt.tm_mday)
                         print tt.tm_year,tt.tm_mon,tt.tm_mday
-                        count = self.dao.getOrderCountSinceDate(code,ldate)
+                        count = self.storeDao.getOrderCountSinceDate(code,ldate)
                     return self.setiresponse('ordercount=%s' % count)
             except:
                 print sys.exc_info()
@@ -104,23 +105,26 @@ class OrderManager(object):
         retv = ''
         self.check_secure(setiuser,password)
         if lastorder:
-            retv = self.dao.getOrdersAfterId(lastorder,code,batchsize)
+            retv = self.storeDao.getOrdersAfterId(lastorder,code,batchsize)
         else:
             if lastdate:
-                retv = self.dao.getOrdersAfterDate(lastdate,code,batchsize)
+                retv = self.storeDao.getOrdersAfterDate(lastdate,code,batchsize)
         return repr(retv)
 
     def check_secure(self,user,password):
         config = cherrypy.request.app.config['app']
-        if not self.dao:
-            self.dao = OrderManagerDao(config['dbserver'],config['dbuser'],
-                                       config['dbpasswd'],config['database'])
+        if not self.secureDao:
+            self.secureDao = SecureDao(config['logindbserver'],config['loginuser'],
+                                       config['loginpasswd'],config['logindb'])
+        if not self.storeDao:
+            self.storeDao = OrderManagerDao(config['dbserver'],config['dbuser'],
+                                            config['dbpasswd'],config['database'])
         cfuser = config['user']
         passwd = config['passwd']
         if user.lower() != cfuser.lower() or password.lower() != passwd.lower():
             raise cherrypy.HTTPError(status=401)
 
-conf = os.path.join(os.path.dirname(__file__),'speed.conf')
+conf = os.path.join(os.path.dirname(__file__),'seomi.conf')
 
 if __name__ == '__main__':
     cherrypy.quickstart(OrderManager(),config=conf)
