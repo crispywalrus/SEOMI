@@ -103,8 +103,10 @@ class OrderManagerDao(object):
         for row in rows:
             print row
             address = Address(row[5],row[6],row[7],row[8],row[9],row[10])
-            if row[11].lower == 'shipping address':
+            print 'address type', row[11]
+            if row[11].lower() == 'shipping address':
                 products = self.getProducts(orderdataid)
+                print 'shipping address: ', row[11]
                 shipping = Shipping('%s %s'%(row[0],row[1]),row[2],row[3],row[4],address,products)
             else:
                 print 'length is ', len(row)

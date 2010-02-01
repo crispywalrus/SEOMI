@@ -206,7 +206,7 @@ class Payment(object):
     def toString(self):
         return ''
 
-class Product(object):
+class Product(SETIOrders):
     '''Single Item'''
     def __init__(self,sku,name,quantity,itemPrice,weight,prodType,taxable,
                  customerText,lineId,total,dimensions,orderOption):
@@ -221,7 +221,7 @@ class Product(object):
         self.lineId=lineId
         self.total=total
         self.dimensions=dimensions
-        self.orderOption=orderOptions
+        self.orderOption=orderOption
 
     def __repr__(self):
         retv = '<Product>\n'
@@ -235,10 +235,10 @@ class Product(object):
         retv = self.formatSimpleProperty(retv,'CustomerText',self.customerText)
         retv = self.formatSimpleProperty(retv,'LineID',self.lineId)
         retv = self.formatSimpleProperty(retv,'Total',self.total)
-        if dimensions:
-            retv = concat(retv,repr(dimensions))
-        if orderOption:
-            retv = concat(retv,repr(orderOption))
+        if self.dimensions:
+            retv = concat(retv,repr(self.dimensions))
+        if self.orderOption:
+            retv = concat(retv,repr(self.orderOption))
         return concat(retv,'\n</Product>\n')
 
 
