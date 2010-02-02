@@ -124,7 +124,7 @@ class OrderManagerDao(object):
         query = 'select * from orderitem where orderdataid=%(id)s'
         rc, rows = self.db.execute(query,params)
         for row in rows:
-            retv.append(Product(row[5],row[8],row[3],row[14],None,None,None,None,row[20],None,None,None))
+            retv.append(Product(row[6],row[8],row[3],row[13],None,None,None,None,row[20],None,None,None))
         return retv
 
     def getOther(self,orderRow):
