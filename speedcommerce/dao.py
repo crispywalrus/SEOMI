@@ -134,7 +134,7 @@ class OrderManagerDao(object):
         query = 'select attname, deltaprice, atttype, attvalue from orderitemattribs where orderitemid=%(itemid)s'
         rc, rows = self.db.execute(query,params)
         for row in rows:
-            retv.append(OrderOptions(row[0],row[2],row[1],row[3],None,None,None))
+            retv.append(OrderOption(row[0],row[2],row[1],row[3],None,None,None))
         return retv
 
     def getOther(self,orderRow):
