@@ -113,17 +113,15 @@ class OrderManager(object):
         return repr(retv)
 
     def check_secure(self,user,password):
-        config = cherrypy.request.app.config['app']
         if not self.secureDao:
-            self.secureDao = SecureDao(config['logindbserver'],config['loginuser'],
-                                       config['loginpasswd'],config['logindb'])
+            config = cherrypy.request.app.config['login']
+            self.secureDao = SecureDao(config['dbserver'],config['dbuser'],
+                                       config['dbpasswd'],config['database'])
         if not self.storeDao:
+            config = cherrypy.request.app.config['app']
             self.storeDao = OrderManagerDao(config['dbserver'],config['dbuser'],
                                             config['dbpasswd'],config['database'])
-        cfuser = config['user']
-        passwd = config['passwd']
-        if user.lower() != cfuser.lower() or password.lower() != passwd.lower():
-            raise cherrypy.HTTPError(status=401)
+        secureDao.checkCredentials(user.lower(),passwd.lower())
 
 conf = os.path.join(os.path.dirname(__file__),'seomi.conf')
 

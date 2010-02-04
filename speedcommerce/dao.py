@@ -6,7 +6,6 @@ class OrderManagerDao(object):
 
     def __init__(self,host='localhost',user='ordermanager',passwd='test',db='avetti'):
         self.db = DataAccess(host,user,passwd,db)
-        pass
 
     def getOrderCountSinceDate(self,code,lastdate):
         rows = []
@@ -125,7 +124,7 @@ class OrderManagerDao(object):
         rc, rows = self.db.execute(query,params)
         for row in rows:
             options = self.getOptions(row[0])
-            retv.append(Product(row[6],row[8],row[3],row[13],None,None,None,None,row[20],None,None,None))
+            retv.append(Product(row[6],row[8],row[3],row[13],None,None,None,None,row[20],None,None,options))
         return retv
 
     def getOptions(self,orderitemid):
@@ -144,5 +143,10 @@ class OrderManagerDao(object):
 class SecureDao(object):
 
     def __init__(self,host='localhost',user='ordermanager',passwd='test',db='avetti'):
-        pass
+        self.db = DataAccess(host,user,passwd,db)
 
+    def checkCredentials(user,passwd):
+        cfuser = 'admin'
+        passwd = 'bruce'
+        if user.lower() != cfuser.lower() or password.lower() != passwd.lower():
+            raise cherrypy.HTTPError(status=401)
