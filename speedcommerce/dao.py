@@ -124,9 +124,25 @@ class OrderManagerDao(object):
         query = 'select * from orderitem where orderdataid=%(id)s'
         rc, rows = self.db.execute(query,params)
         for row in rows:
+            options = self.getOptions(row[0])
             retv.append(Product(row[6],row[8],row[3],row[13],None,None,None,None,row[20],None,None,None))
+        return retv
+
+    def getOptions(self,orderitemid):
+        retv = []
+        params = { 'itemid' : orderitemid }
+        query = 'select attname, deltaprice, atttype, attvalue from orderitemattribs where orderitemid=%(itemid)s'
+        rc, rows = self.db.execute(query,params)
+        for row in rows:
+            retv.append(OrderOptions(row[0],row[2],row[1],row[3],None,None,None))
         return retv
 
     def getOther(self,orderRow):
         return Other()
+
+
+class SecureDao(object):
+
+    def __init__(self,host='localhost',user='ordermanager',passwd='test',db='avetti'):
+        pass
 

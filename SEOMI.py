@@ -8,7 +8,7 @@ import sys
 from time import strptime
 from datetime import date
 
-from speedcommerce.OrderManagerDao import OrderManagerDao
+from speedcommerce.dao import OrderManagerDao, SecureDao
 
 class OrderManager(object):
 

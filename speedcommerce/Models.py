@@ -238,7 +238,8 @@ class Product(SETIOrders):
         if self.dimensions:
             retv = concat(retv,repr(self.dimensions))
         if self.orderOption:
-            retv = concat(retv,repr(self.orderOption))
+            for i in self.orderOption:
+                retv = concat(retv,repr(i))
         return concat(retv,'\n</Product>\n')
 
 
