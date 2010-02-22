@@ -197,14 +197,55 @@ class Other(SETIOrders):
         retv = self.formatSimpleProperty(retv,"IPHostName","127.0.0.1")
         return concat(retv,'\n</Other>\n')
 
+class CreditCard(SETIOrders):
+    '''Records for a payment via Credit Card'''
+    def __init__(self,card_number,card_holder,expiration_date,cvv,company_holder,issuing_bank,avs,transaction_id,auth_code,process_level,amount,issue_number,security_key,cavv,eci,xid):
+        self.card_number 
+        self.card_holder=card_holder 
+        self.expiration_date=expiration_date 
+        self.cvv=cvv 
+        self.company_holder=company_holder 
+        self.issuing_bank=issuing_bank 
+        self.avs=avs 
+        self.transaction_id=transaction_id 
+        self.auth_code=auth_code 
+        self.process_level=process_level 
+        self.amount=amount 
+        self.issue_number=issue_number 
+        self.security_key=security_key 
+        self.cavv=cavv 
+        self.eci=eci 
+        self.xid=xid
 
-class Payment(object):
+    def __repr__(self):
+        retv = '<CreditCard>\n'
+        retv = self.formatSimpleProperty(retv,self.card_number)
+        retv = self.formatSimpleProperty(retv,self.card_holder)
+        retv = self.formatSimpleProperty(retv,self.expiration_date)
+        retv = self.formatSimpleProperty(retv,self.cvv)
+        retv = self.formatSimpleProperty(retv,self.company_holder)
+        retv = self.formatSimpleProperty(retv,self.issuing_bank)
+        retv = self.formatSimpleProperty(retv,self.avs)
+        retv = self.formatSimpleProperty(retv,self.transaction_id)
+        retv = self.formatSimpleProperty(retv,self.auth_code)
+        retv = self.formatSimpleProperty(retv,self.process_level)
+        retv = self.formatSimpleProperty(retv,self.amount)
+        retv = self.formatSimpleProperty(retv,self.issue_number)
+        retv = self.formatSimpleProperty(retv,self.security_key)
+        retv = self.formatSimpleProperty(retv,self.cavv)
+        retv = self.formatSimpleProperty(retv,self.eci)
+        retv = self.formatSimpleProperty(retv,self.xid)
+        retv = concat(retv,'\n</CreditCard>\n')
+
+class Payment(SETIOrders):
     '''payment details -- unimplmented'''
-    def __init__(self):
-        pass
+    def __init__(self,actual_method)
+        self.actual_method=actual_method
 
-    def toString(self):
-        return ''
+    def __repr__(self):
+        retv = '<Payment>\n'
+        retv = concat(retv,repr(self.actual_method))
+        return concat(retv,'\n</Payment>\n')
 
 class Product(SETIOrders):
     '''Single Item'''

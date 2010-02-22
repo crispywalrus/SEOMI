@@ -64,8 +64,9 @@ class OrderManagerDao(object):
                 shipping, billing = self.getOrderAddress(row[0])
                 totals = self.getTotals(row)
                 other = self.getOther(row)
+                payment = self.getPayment(row[0])
                 print other
-                retv.append(Order(row[0],row[18],billing,shipping,None,totals,None,None,other))
+                retv.append(Order(row[0],row[18],billing,shipping,payment,totals,None,None,other))
         finally:
             self.db.release()
         return SETIOrders(Response(),retv)
@@ -87,7 +88,8 @@ class OrderManagerDao(object):
                 shipping, billing = self.getOrderAddress(row[0])
                 totals = self.getTotals(row)
                 other = self.getOther(row)
-                retv.append(Order(row[0],row[18],billing,shipping,None,totals,None,None,other))
+                payment = self.getPayment(row[0])
+                retv.append(Order(row[0],row[18],billing,shipping,payment,totals,None,None,other))
         finally:
             self.db.release()
         return SETIOrders(Response(),retv)
@@ -139,6 +141,15 @@ class OrderManagerDao(object):
     def getOther(self,orderRow):
         return Other()
 
+    def getPayment(self,orderid):
+        query = 'select * from orderpayment where orderdataid=%(orderid)s'
+        params = { 'orderid' : orderid }
+        method = 'Error'
+        rc, rows = self.db.execute(query,params)
+        for row in rows:
+            if row[3].lower() == 'cc':
+                method = CreditCard(row[17],row[7],None,None,None,None,None,row[11],None,None,None,None,None,None,None,None)
+        return Payment(method)
 
 class SecureDao(object):
 
