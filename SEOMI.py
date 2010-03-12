@@ -121,7 +121,7 @@ class OrderManager(object):
             config = cherrypy.request.app.config['app']
             self.storeDao = OrderManagerDao(config['dbserver'],config['dbuser'],
                                             config['dbpasswd'],config['database'])
-        secureDao.checkCredentials(user.lower(),passwd.lower())
+        self.secureDao.checkCredentials(user.lower(),passwd.lower())
 
 conf = os.path.join(os.path.dirname(__file__),'seomi.conf')
 
