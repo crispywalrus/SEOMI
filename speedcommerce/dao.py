@@ -159,5 +159,5 @@ class SecureDao(object):
     def checkCredentials(user,passwd):
         cfuser = 'admin'
         passwd = 'bruce'
-        if user.lower() != cfuser.lower() or password.lower() != passwd.lower():
+        if user.lower() != cfuser.lower() or passwd.lower() != passwd.lower():
             raise cherrypy.HTTPError(status=401)
