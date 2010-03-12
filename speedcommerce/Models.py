@@ -239,7 +239,7 @@ class CreditCard(SETIOrders):
 
 class Payment(SETIOrders):
     '''payment details -- unimplmented'''
-    def __init__(self,actual_method)
+    def __init__(self,actual_method):
         self.actual_method=actual_method
 
     def __repr__(self):
