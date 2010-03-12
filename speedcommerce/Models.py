@@ -200,7 +200,7 @@ class Other(SETIOrders):
 class CreditCard(SETIOrders):
     '''Records for a payment via Credit Card'''
     def __init__(self,card_number,card_holder,expiration_date,cvv,company_holder,issuing_bank,avs,transaction_id,auth_code,process_level,amount,issue_number,security_key,cavv,eci,xid):
-        self.card_number 
+        self.card_number=card_number
         self.card_holder=card_holder 
         self.expiration_date=expiration_date 
         self.cvv=cvv 
